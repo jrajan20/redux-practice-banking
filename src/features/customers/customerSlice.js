@@ -1,9 +1,10 @@
-initialState={
+const initialStateCustomer={
   fullName: "",
   nationalId: "",
   createdAt: "",
 }
-function customerReducer(state = initialState, action) {
+
+function customerReducer(state = initialStateCustomer, action) {
     switch (action.type) {
         case "customer/createCustomer":
             return {
@@ -42,4 +43,4 @@ function updateCustomer(fullName) {
     };
 }
 
-export { customerReducer, createCustomer, updateCustomer };
+export {createCustomer, updateCustomer, customerReducer};
