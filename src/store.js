@@ -6,8 +6,13 @@ const initialState = {
   loanPurpose: "",
   
 };
+const initialStateCustomer = {
+    fullName: "",
+    nationalId: "",
+    createdAt: "",
+}
 
-function reducer(state = initialState, action) {
+function accountReducer(state = initialState, action) {
   switch (action.type) {
     case "account/deposit":
       return {
@@ -39,7 +44,31 @@ function reducer(state = initialState, action) {
       return state;
   }
 }
-const store = createStore(reducer);
+function customerReducer(state = initialStateCustomer, action) {
+    switch (action.type) {
+        case "customer/createCustomer":
+            return {
+                ...state,
+                fullName: action.payload.fullName,
+                nationalId: action.payload.nationalId,
+                createdAt: action.payload.createdAt,
+            };
+        case "customer/updateCustomer":
+            return {
+                ...state,
+                fullName: action.payload.fullName,
+            };
+        default:
+            return state;
+    }
+}
+const rootReducer = (state = {}, action) => {
+    return {
+        account: accountReducer(state.account, action),
+        customer: customerReducer(state.customer, action),
+    };
+};
+const store = createStore(rootReducer);
 // store.dispatch({ type: "account/deposit", payload: 500 });
 // store.dispatch({ type: "account/withdraw", payload: 200 });
 // store.dispatch({ type: "account/requestLoan", payload: { amount: 1000, purpose: "Buy a car" } });
@@ -74,4 +103,18 @@ function payLoan() {
   };
 }
 
-export { store, deposit, withdraw, requestLoan, payLoan };
+function createCustomer(fullName, nationalId) {
+  return {
+    type: "customer/createCustomer",
+    payload: { fullName, nationalId, createdAt: new Date().toISOString() },
+  };
+}
+
+function updateCustomer(fullName, nationalId) {
+  return {
+    type: "customer/updateCustomer",
+    payload: { fullName },
+  };
+}
+
+export { store, deposit, withdraw, requestLoan, payLoan, createCustomer, updateCustomer };
