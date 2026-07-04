@@ -16,7 +16,7 @@ function customerReducer(state = initialStateCustomer, action) {
         case "customer/updateCustomer":
             return {
                 ...state,
-                fullName: action.payload.fullName,
+                fullName: action.payload,
             };
         default:
             return state;
@@ -37,9 +37,7 @@ function createCustomer(fullName, nationalId) {
 function updateCustomer(fullName) {
     return {
         type: "customer/updateCustomer",
-        payload: {
-            fullName,
-        },
+        payload: fullName,
     };
 }
 
